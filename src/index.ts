@@ -14,6 +14,6 @@ app.listen(port, () => {
     console.log(`Start To listen port ${port}`);
 })
 
-app.get("/", (_req: Request, _res: Response) => {
-    _res.send("Hello This is IFoundApi, checkout /api To see the document.");
+app.get("/", (_req: Request, res: Response) => {
+    res.send("Hello This is IFoundApi, checkout /api To see the document.");
 })
