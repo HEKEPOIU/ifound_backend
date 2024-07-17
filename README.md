@@ -1,7 +1,7 @@
-# How To Use:
+#Deploy:
 
 ```sh
  cp .example.env .env
- code .env #Use You like Code editor to change inner Setting.
+ code .env #Use the Code editor you like to change inner Setting.
+ docker-compose up -d #Use detach mode
 ```
-    
