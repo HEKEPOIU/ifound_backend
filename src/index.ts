@@ -3,14 +3,22 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import session from "express-session";
 import { SetupSession } from "./auth/session_option";
+import mongoose from "mongoose";
+import { InitAdmin } from "./db/initUser";
 
 dotenv.config();
 const app: Application = express();
 const port = process.env.PORT;
 
 const sessionOption = SetupSession(app);
-
-
+mongoose.connect(process.env.MONDOURI)
+    .then(async () => {
+        console.log('Connected to Database')
+        console.log('Try to Init Admin');
+        await InitAdmin(process.env.ADMINNAME, process.env.ADMINPASSWORD);
+        console.log('Init successful.')
+    })
+    .catch((err) => console.error(`Error: ${err}`))
 
 app.use(morgan('dev'));
 app.use(express.json());

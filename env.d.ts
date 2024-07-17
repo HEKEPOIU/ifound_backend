@@ -3,6 +3,11 @@ declare global {
         interface ProcessEnv {
             PORT: number;
             NODE_ENV: string;
+            MONGOUSERNAME: string;
+            MONGOPASSWORD: string;
+            MONDOURI: string;
+            ADMINNAME: string;
+            ADMINPASSWORD: string;
             //You Can add more .env setting in it.
         }
     }
