@@ -97,7 +97,7 @@
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
         "skipLibCheck": true /* Skip type checking all .d.ts files. */
     },
-    //!Notice! when we use ts-node to dev, it will not compile include file.
+    //NOTE:when we use ts-node to dev, it will not compile include file.
     //It said that it will have perfmance issue,
     //let we define like node_modules module and use typeRoots, paths or  triple-slash directives.
     //But I'm lazy to do this so we just ts-node --files
