@@ -1,0 +1,15 @@
+services:
+  ifound_docker:
+    environment:
+      - NODE_ENV=production
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    #env_file is  Docker Compose CLI feature, so you can't use with out compose 
+    env_file:
+      - .env
+    ports: 
+      - "${PORT}:${PORT}"
+
+    command: node dist/index.js
