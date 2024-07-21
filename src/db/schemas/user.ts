@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
+
 interface IUser {
     Account: string;
     Password: string;

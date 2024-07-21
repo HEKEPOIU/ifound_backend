@@ -5,6 +5,7 @@ import session from "express-session";
 import { SetupSession } from "./auth/session_option";
 import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
+import { router } from "./route";
 
 dotenv.config();
 const app: Application = express();
@@ -23,7 +24,7 @@ mongoose.connect(process.env.MONDOURI)
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(session(sessionOption))
-
+app.use("/api", router);
 
 console.log(`Server is Fire at http://localhost:${port}`);
 

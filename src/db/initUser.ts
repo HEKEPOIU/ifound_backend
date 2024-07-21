@@ -1,3 +1,4 @@
+import { HashPassword } from "../utils/helper";
 import { User } from "./schemas/user";
 
 async function InitAdmin(adminName: string = "admin", password: string = "passport") {
@@ -12,10 +13,11 @@ async function InitAdmin(adminName: string = "admin", password: string = "passpo
         return false;
     }
 
+    const hashPassword = await HashPassword(password);
     //Init if Not.
     const adminData = new User({
         Account: adminName,
-        Password: password,
+        Password: hashPassword,
         Permission: 1
     })
     try {
