@@ -20,7 +20,8 @@
         "express-validator": "^7.1.0",
         "mongoose": "^8.5.1",
         "morgan": "^1.10.0",
-        "passport": "^0.7.0"
+        "passport": "^0.7.0",
+        "passport-local": "^1.0.0"
     },
     "devDependencies": {
         "@eslint/js": "^8.57.0",
@@ -30,6 +31,7 @@
         "@types/morgan": "^1.9.9",
         "@types/node": "^20.14.10",
         "@types/passport": "^1.0.16",
+        "@types/passport-local": "^1.0.38",
         "@typescript-eslint/eslint-plugin": "^7.16.0",
         "@typescript-eslint/parser": "^7.16.0",
         "eslint": "^8.57.0",

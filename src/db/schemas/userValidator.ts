@@ -13,7 +13,7 @@ const registerUserCheck = checkSchema({
     },
     Password: {
         isLength: {
-            options: { min: 8 },
+            options: { min: 10 },
             errorMessage: "Password length must more then 8."
         },
         custom: {
