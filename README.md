@@ -17,5 +17,9 @@ But You can use docker for mongodb. (For none search api)
 
 
 ```sh
- docker-compose -f docker-compose.dev.yaml up
+ docker-compose -f docker-compose.dev.yaml up # Open MongodbDocker.
+ npm run gendoc_dev # can genarate swagger doc by autogen.
+ npm run dev
 ```
+> You need run gendoc every time you change the autogen code.
+> Currently only support the Development swagger Doc page.
