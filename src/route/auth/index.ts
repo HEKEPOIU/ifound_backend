@@ -53,4 +53,9 @@ authRouter.delete("/logout", RequestLogin, (req: Request, res: Response, next: N
         })
     });
 })
+
+authRouter.get("/getToken", (req: Request, res: Response) => {
+    res.set('X-CSRF-Token', req.csrfToken());
+    res.status(200).json({ csrfToken: req.csrfToken() });
+})
 export { authRouter, RequestLogin };

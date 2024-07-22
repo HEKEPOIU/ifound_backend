@@ -1,4 +1,4 @@
-import express, { Application, Response, Request } from "express";
+import express, { Application } from "express";
 import dotenv from "dotenv"
 import morgan from "morgan"
 import session from "express-session";
@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
 import { router } from "./route";
 import passport from "passport"
+import { csrfProtection } from "./utils/csrfProtection";
 
 dotenv.config();
 const app: Application = express();
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(csrfProtection);
 app.use("/api", router);
 
 console.log(`Server is Fire at http://localhost:${port}`);
@@ -35,7 +37,3 @@ app.listen(port, () => {
     console.log(`Start To listen port ${port}`);
 })
 
-//WARN:Debug for now please delete later.
-app.get("/", (_req: Request, res: Response) => {
-    res.send("Hello This is IFoundApi, checkout /api To see the document.");
-})
