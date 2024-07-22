@@ -6,6 +6,9 @@ import { localStrategy } from "./auth/local-strategy";
 const router = Router();
 
 passport.use(localStrategy);
-router.use("/auth", authRouter);
+router.use("/auth", authRouter
+    /* 	#swagger.tags = ['Auth']
+          #swagger.description = 'Endpoint to Authentication a user' */
+);
 
 export { router }

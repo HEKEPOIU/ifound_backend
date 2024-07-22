@@ -1,0 +1,310 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "IFound_API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication and Token"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to register a new user.",
+        "parameters": [
+          {
+            "name": "UserAuthData",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserAuthData"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "User created"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Validation errors.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "location": {
+                        "type": "string",
+                        "example": "body"
+                      },
+                      "msg": {
+                        "type": "string",
+                        "example": "string"
+                      },
+                      "param": {
+                        "type": "string",
+                        "example": "string"
+                      },
+                      "value": {
+                        "type": "string",
+                        "example": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "html"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict error, likely due to a duplicate user.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "MongooseError"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unknown errors"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "object"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to log in a user.",
+        "parameters": [
+          {
+            "name": "UserAuthData",
+            "in": "body",
+            "description": "User information.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserAuthData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged in successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Permission": {
+                  "type": "string",
+                  "example": "number"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, login failed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "html"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to log out a user.",
+        "responses": {
+          "205": {
+            "description": "User logged out successfully."
+          },
+          "401": {
+            "description": "User Not Login."
+          },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "html"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Unknown server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Unknown errors"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "object"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/getToken": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to get a CSRF token.",
+        "responses": {
+          "200": {
+            "description": "CSRF token retrieved successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "csrfToken": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserAuthData": {
+      "type": "object",
+      "properties": {
+        "Account": {
+          "type": "string",
+          "example": "Jhon Doe"
+        },
+        "Password": {
+          "type": "string",
+          "example": "123456"
+        }
+      },
+      "required": [
+        "Account",
+        "Password"
+      ]
+    }
+  }
+}

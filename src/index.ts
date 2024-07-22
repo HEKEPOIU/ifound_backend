@@ -8,6 +8,8 @@ import { InitAdmin } from "./db/initUser";
 import { router } from "./route";
 import passport from "passport"
 import { csrfProtection } from "./utils/csrfProtection";
+import swaggerUi from "swagger-ui-express"
+import swaggerFile from "./swagger/doc/swagger.json"
 
 dotenv.config();
 const app: Application = express();
@@ -23,6 +25,8 @@ mongoose.connect(process.env.MONDOURI)
     })
     .catch((err) => console.error(`Error: ${err}`));
 
+
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(session(sessionOption));
@@ -33,7 +37,10 @@ app.use("/api", router);
 
 console.log(`Server is Fire at http://localhost:${port}`);
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Start To listen port ${port}`);
+    if (process.env.NODE_ENV == "development") {
+        app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+    }
 })
 
