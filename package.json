@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "dist/index.js",
     "scripts": {
-        "build": "npx tsc",
+        "build": "npx tspc",
         "start": "node dist/index.js",
         "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --ignore \"src/**/*.spec.ts\" --exec \"ts-node --files src/index.ts\"",
         "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
@@ -40,7 +40,10 @@
         "nodemon": "^3.1.4",
         "prettier": "3.3.2",
         "ts-node": "^10.9.2",
+        "ts-patch": "^3.2.1",
+        "tsconfig-paths": "^4.2.0",
         "typescript": "^5.5.2",
-        "typescript-eslint": "^7.16.0"
+        "typescript-eslint": "^7.16.0",
+        "typescript-transform-paths": "^3.4.7"
     }
 }

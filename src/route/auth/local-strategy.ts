@@ -1,8 +1,8 @@
 import { IStrategyOptions, Strategy } from "passport-local";
-import { UserModel } from "../../db/schemas/user";
-import { ComparePassword } from "../../utils/helper";
+import { UserModel } from "@codesRoot/db/schemas/user";
+import { ComparePassword } from "@codesRoot/utils/helper";
 import passport from "passport";
-import { UserDocument } from "../../db/schemas/userType";
+import { UserDocument } from "@codesRoot/db/schemas/userType";
 
 
 const strateOption: IStrategyOptions = {

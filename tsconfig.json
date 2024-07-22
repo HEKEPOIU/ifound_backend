@@ -25,8 +25,12 @@
         "module": "commonjs", /* Specify what module code is generated. */
         "rootDir": "./src", /* Specify the root folder within your source files. */
         // "moduleResolution": "node10",                     /* Specify how TypeScript looks up a file from a given module specifier. */
-        // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
-        // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
+        "baseUrl": "./", /* Specify the base directory to resolve non-relative module names. */
+        "paths": {
+            "@codesRoot/*": [
+                "src/*"
+            ]
+        }, /* Specify a set of entries that re-map imports to additional lookup locations. */
         // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
         // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
         // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
@@ -95,7 +99,12 @@
         // "allowUnreachableCode": true,                     /* Disable error reporting for unreachable code. */
         /* Completeness */
         // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-        "skipLibCheck": true /* Skip type checking all .d.ts files. */
+        "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+        "plugins": [
+            {
+                "transform": "typescript-transform-paths"
+            }
+        ]
     },
     //NOTE:when we use ts-node to dev, it will not compile include file.
     //It said that it will have perfmance issue,
@@ -106,5 +115,11 @@
     "include": [
         "*.d.ts",
         "src/**/*"
-    ]
+    ],
+    // Ref: https://stackoverflow.com/questions/77612285/how-to-correctly-resolve-path-aliases-in-typescript
+    "ts-node": {
+        "require": [
+            "tsconfig-paths/register"
+        ]
+    }
 }
