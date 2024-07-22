@@ -2,12 +2,11 @@ import express, { Application, Response, Request } from "express";
 import dotenv from "dotenv"
 import morgan from "morgan"
 import session from "express-session";
-import { SetupSession } from "./auth/session_option";
+import { SetupSession } from "./session_option";
 import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
 import { router } from "./route";
 import passport from "passport"
-import { localStrategy } from "./strategies/local-strategy";
 
 dotenv.config();
 const app: Application = express();
@@ -28,7 +27,6 @@ app.use(express.json());
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(localStrategy);
 app.use("/api", router);
 
 console.log(`Server is Fire at http://localhost:${port}`);

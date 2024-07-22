@@ -1,11 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response, Router } from "express";
-import { registerUserCheck } from "../db/schemas/userValidator";
+import { registerUserCheck } from "../../db/schemas/userValidator";
 import { matchedData, Result, validationResult } from "express-validator";
-import { UserModel } from "../db/schemas/user";
+import { UserModel } from "../../db/schemas/user";
 import { MongooseError } from "mongoose";
-import { HashPassword } from "../utils/helper";
+import { HashPassword } from "../../utils/helper";
 import passport from "passport";
-import { UserDocument } from "../db/schemas/userType";
+import { UserDocument } from "../../db/schemas/userType";
 
 const authRouter = Router()
 
