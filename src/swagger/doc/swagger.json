@@ -58,89 +58,19 @@
           "400": {
             "description": "Validation errors.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "errors": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "location": {
-                        "type": "string",
-                        "example": "body"
-                      },
-                      "msg": {
-                        "type": "string",
-                        "example": "string"
-                      },
-                      "param": {
-                        "type": "string",
-                        "example": "string"
-                      },
-                      "value": {
-                        "type": "string",
-                        "example": "string"
-                      }
-                    }
-                  }
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "ForbiddenError: invalid csrf token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "html"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/ValidationError"
             }
           },
           "409": {
             "description": "Conflict error, likely due to a duplicate user.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "name": {
-                  "type": "string",
-                  "example": "MongooseError"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/MongooseDuplicateKeyError"
             }
           },
           "500": {
             "description": "Unknown server error.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Unknown errors"
-                },
-                "error": {
-                  "type": "string",
-                  "example": "object"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/UnknownError"
             }
           }
         }
@@ -167,16 +97,7 @@
           "200": {
             "description": "User logged in successfully.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "Permission": {
-                  "type": "string",
-                  "example": "number"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/LoginSuccess"
             }
           },
           "401": {
@@ -187,21 +108,6 @@
                 "message": {
                   "type": "string",
                   "example": "Unauthorized"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
-            }
-          },
-          "403": {
-            "description": "ForbiddenError: invalid csrf token",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "html"
                 }
               },
               "xml": {
@@ -222,41 +128,16 @@
           "205": {
             "description": "User logged out successfully."
           },
-          "401": {
-            "description": "User Not Login."
-          },
           "403": {
             "description": "ForbiddenError: invalid csrf token",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "html"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/ForbiddenError"
             }
           },
           "500": {
             "description": "Unknown server error.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "message": {
-                  "type": "string",
-                  "example": "Unknown errors"
-                },
-                "error": {
-                  "type": "string",
-                  "example": "object"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/UnknownError"
             }
           }
         }
@@ -267,7 +148,7 @@
         "tags": [
           "Auth"
         ],
-        "description": "Endpoint to get a CSRF token.",
+        "description": "Endpoint to get a CSRF token for User.",
         "responses": {
           "200": {
             "description": "CSRF token retrieved successfully.",
@@ -282,6 +163,12 @@
               "xml": {
                 "name": "main"
               }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, login failed.",
+            "schema": {
+              "$ref": "#/definitions/NotLoginError"
             }
           }
         }
@@ -304,6 +191,148 @@
       "required": [
         "Account",
         "Password"
+      ]
+    },
+    "ValidationError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Validation errors"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "example": "body"
+              },
+              "msg": {
+                "type": "string",
+                "example": "string"
+              },
+              "param": {
+                "type": "string",
+                "example": "string"
+              },
+              "value": {
+                "type": "string",
+                "example": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "message",
+        "errors"
+      ]
+    },
+    "MongooseDuplicateKeyError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "MongoServerError"
+        },
+        "errors": {
+          "type": "array",
+          "example": [
+            "E11000 duplicate key error collection: test.users index: Account_1 dup key: { Account: \"example@email.com\" }"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "message",
+        "errors"
+      ]
+    },
+    "UnknownError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Unknown server error"
+        },
+        "error": {
+          "type": "array",
+          "example": [
+            "string"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "message",
+        "error"
+      ]
+    },
+    "LoginSuccess": {
+      "type": "object",
+      "properties": {
+        "csrfToken": {
+          "type": "string",
+          "example": "string"
+        },
+        "Permision": {
+          "type": "number",
+          "example": 0
+        }
+      },
+      "required": [
+        "csrfToken",
+        "Permision"
+      ]
+    },
+    "ForbiddenError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "ForbiddenError"
+        },
+        "errors": {
+          "type": "array",
+          "example": [
+            "invalid csrf token"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "message",
+        "errors"
+      ]
+    },
+    "NotLoginError": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Not Login"
+        },
+        "errors": {
+          "type": "array",
+          "example": [
+            "User Not Login"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "message",
+        "errors"
       ]
     }
   }

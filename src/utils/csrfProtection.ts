@@ -1,5 +1,5 @@
-import csrf from 'csurf'
+import { csrfSync } from "csrf-sync";
 
-const csrfProtection = csrf();
+const csrfProtection = csrfSync();
 
 export { csrfProtection }

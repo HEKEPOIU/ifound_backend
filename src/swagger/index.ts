@@ -22,6 +22,46 @@ const doc = {
         UserAuthData: {
             $Account: "Jhon Doe",
             $Password: "123456",
+        },
+        ValidationError: {
+            $message: "Validation errors",
+            $errors: [
+                {
+                    location: 'body',
+                    msg: 'string',
+                    param: 'string',
+                    value: 'string'
+                }
+            ]
+
+        },
+        MongooseDuplicateKeyError: {
+            $message: "MongoServerError",
+            $errors: [
+                "E11000 duplicate key error collection: test.users index: Account_1 dup key: { Account: \"example@email.com\" }"
+            ]
+        },
+        UnknownError: {
+            $message: "Unknown server error",
+            $error: [
+                "string"
+            ]
+        },
+        LoginSuccess: {
+            $csrfToken: "string",
+            $Permision: 0
+        },
+        ForbiddenError: {
+            $message: "ForbiddenError",
+            $errors: [
+                "invalid csrf token"
+            ]
+        },
+        NotLoginError: {
+            $message: "Not Login",
+            $errors: [
+                "User Not Login"
+            ]
         }
     }
 };

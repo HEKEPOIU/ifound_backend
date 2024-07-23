@@ -7,9 +7,9 @@ import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
 import { router } from "./route";
 import passport from "passport"
-import { csrfProtection } from "./utils/csrfProtection";
 import swaggerUi from "swagger-ui-express"
 import swaggerFile from "./swagger/doc/swagger.json"
+import { IFoundErrorHandle } from "./middleware/errorHandle";
 
 dotenv.config();
 const app: Application = express();
@@ -32,8 +32,8 @@ app.use(express.json());
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(csrfProtection);
 app.use("/api", router);
+app.use(IFoundErrorHandle);
 
 console.log(`Server is Fire at http://localhost:${port}`);
 
