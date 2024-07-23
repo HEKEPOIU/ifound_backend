@@ -91,12 +91,12 @@ authRouter.post(
             }
         */
         const user = req.user as UserDocument;
-        res.status(200).json({ csrfToken: csrfProtection.generateToken(req), Permission: user.Permission });
+        res.status(200).json({ Permission: user.Permission });
     }
 )
 // Why delete? See the doc:
 // https://www.passportjs.org/concepts/authentication/logout/
-authRouter.delete("/logout",
+authRouter.delete("/logout", RequestLogin,
     (req: Request, res: Response, next: NextFunction) => {
         /*  
             #swagger.description = 'Endpoint to log out a user.'
@@ -110,9 +110,10 @@ authRouter.delete("/logout",
                 schema: {$ref: "#/definitions/UnknownError" }
             }
     
-            #swagger.responses[403] = {
-                description: 'ForbiddenError: invalid csrf token',
-                schema: { $ref: "#/definitions/ForbiddenError" }
+
+            #swagger.responses[401] = {
+                description: 'Unauthorized, Not Login.',
+                schema: { $ref: "#/definitions/NotLoginError"  }
             }
         */
         res.clearCookie('connect.sid');  // clear the cookie
@@ -124,22 +125,17 @@ authRouter.delete("/logout",
         });
     })
 
-authRouter.get("/getToken", RequestLogin,
+authRouter.get("/getToken",
     (req: Request, res: Response) => {
         /*  
-            #swagger.description = 'Endpoint to get a CSRF token for User.'
+            #swagger.description = 'Endpoint to get a CSRF token .'
     
             #swagger.responses[200] = {
                 description: 'CSRF token retrieved successfully.',
                 schema: { csrfToken: 'string' }
             }
 
-            #swagger.responses[401] = {
-                description: 'Unauthorized, login failed.',
-                schema: { $ref: "#/definitions/NotLoginError"  }
-            }
         */
-
-        res.status(200).json({ csrfToken: csrfProtection.generateToken(req) });
+        res.status(200).json({ csrfToken: csrfProtection.generateToken(req, res, false, false) });
     })
 export { authRouter };

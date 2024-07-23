@@ -5,10 +5,10 @@
     "title": "IFound_API",
     "description": ""
   },
-  "host": "localhost:3000",
+  "host": "localhost:8000/api",
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://localhost:8000"
     }
   ],
   "basePath": "/",
@@ -22,7 +22,7 @@
     "http"
   ],
   "paths": {
-    "/auth/register": {
+    "/api/auth/register": {
       "post": {
         "tags": [
           "Auth"
@@ -61,6 +61,12 @@
               "$ref": "#/definitions/ValidationError"
             }
           },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "$ref": "#/definitions/ForbiddenError"
+            }
+          },
           "409": {
             "description": "Conflict error, likely due to a duplicate user.",
             "schema": {
@@ -76,7 +82,7 @@
         }
       }
     },
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "tags": [
           "Auth"
@@ -114,11 +120,17 @@
                 "name": "main"
               }
             }
+          },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "$ref": "#/definitions/ForbiddenError"
+            }
           }
         }
       }
     },
-    "/auth/logout": {
+    "/api/auth/logout": {
       "delete": {
         "tags": [
           "Auth"
@@ -127,6 +139,12 @@
         "responses": {
           "205": {
             "description": "User logged out successfully."
+          },
+          "401": {
+            "description": "Unauthorized, Not Login.",
+            "schema": {
+              "$ref": "#/definitions/NotLoginError"
+            }
           },
           "403": {
             "description": "ForbiddenError: invalid csrf token",
@@ -143,12 +161,12 @@
         }
       }
     },
-    "/auth/getToken": {
+    "/api/auth/getToken": {
       "get": {
         "tags": [
           "Auth"
         ],
-        "description": "Endpoint to get a CSRF token for User.",
+        "description": "Endpoint to get a CSRF token .",
         "responses": {
           "200": {
             "description": "CSRF token retrieved successfully.",
@@ -165,10 +183,10 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized, login failed.",
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
             "schema": {
-              "$ref": "#/definitions/NotLoginError"
+              "$ref": "#/definitions/ForbiddenError"
             }
           }
         }

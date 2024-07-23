@@ -10,6 +10,7 @@ import passport from "passport"
 import swaggerUi from "swagger-ui-express"
 import swaggerFile from "./swagger/doc/swagger.json"
 import { IFoundErrorHandle } from "./middleware/errorHandle";
+import cookieParser from "cookie-parser";
 import { IFoundCsrfProtectionMiddleware } from "./utils/csrfProtection";
 
 dotenv.config();
@@ -33,8 +34,16 @@ app.use(express.json());
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser());
 app.use(IFoundCsrfProtectionMiddleware);
-app.use("/api", router);
+app.use("/api", router
+    /*
+            #swagger.responses[403] = {
+        description: 'ForbiddenError: invalid csrf token',
+        schema: { $ref: "#/definitions/ForbiddenError" }
+    }
+    */
+);
 app.use(IFoundErrorHandle);
 
 console.log(`Server is Fire at http://localhost:${port}`);

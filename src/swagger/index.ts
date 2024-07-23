@@ -6,9 +6,10 @@ const doc = {
         version: '0.0.1',            // by default: '1.0.0'
         title: 'IFound_API',              // by default: 'REST API'
     },
+    host: "localhost:8000/api",
     servers: [
         {
-            url: 'http://localhost:3000',              // by default: 'http://localhost:3000'
+            url: 'http://localhost:8000',              // by default: 'http://localhost:3000'
         },
         // { ... }
     ],
@@ -67,5 +68,5 @@ const doc = {
 };
 
 const outputFile = './doc/swagger.json'
-const endpointsFiles = ["../route/index.ts"]
+const endpointsFiles = ["../index.ts"]
 swaggerAutogen(outputFile, endpointsFiles, doc);

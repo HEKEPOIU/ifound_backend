@@ -1,24 +1,31 @@
-import { csrfSync } from "csrf-sync";
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { doubleCsrf } from "csrf-csrf";
+import { randomBytes } from "crypto";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
-const csrfProtection = csrfSync();
-const csrfNeedList: Array<string> =
-    [
-        "/api/auth/logout",
-    ]
+const secret = randomBytes(32).toString();
+const secure = process.env.NODE_ENV == "production" ? true : false;
+const cookieName = process.env.NODE_ENV == "production" ? "__host-psifi.x-csrf-token" : "csrf-token";
+const csrfProtection = doubleCsrf({
+    getSecret: () => secret,
+    cookieName: cookieName,
+    cookieOptions: {
+        sameSite: "lax",
+        path: "/",
+        secure: secure
+    }
+});
 
 const IFoundCsrfProtectionMiddleware: RequestHandler =
     (req: Request, res: Response, next: NextFunction) => {
         // Some method to determine whether we want CSRF protection to apply
-        if (isCsrfProtectionNeeded(req)) {
+        if (req.path !== "/api/auth/getToken") {
+            console.log("protect");
             // protect with CSRF
-            csrfProtection.csrfSynchronisedProtection(req, res, next);
+            csrfProtection.doubleCsrfProtection(req, res, next);
         } else {
             // Don't protect with CSRF
             next();
         }
     };
-function isCsrfProtectionNeeded(req: Request): boolean {
-    return csrfNeedList.includes(req.path);
-}
 export { csrfProtection, IFoundCsrfProtectionMiddleware }
+
