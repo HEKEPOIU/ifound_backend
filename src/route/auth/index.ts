@@ -97,7 +97,6 @@ authRouter.post(
 // Why delete? See the doc:
 // https://www.passportjs.org/concepts/authentication/logout/
 authRouter.delete("/logout",
-    csrfProtection.csrfSynchronisedProtection,
     (req: Request, res: Response, next: NextFunction) => {
         /*  
             #swagger.description = 'Endpoint to log out a user.'

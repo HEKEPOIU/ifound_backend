@@ -10,6 +10,7 @@ import passport from "passport"
 import swaggerUi from "swagger-ui-express"
 import swaggerFile from "./swagger/doc/swagger.json"
 import { IFoundErrorHandle } from "./middleware/errorHandle";
+import { IFoundCsrfProtectionMiddleware } from "./utils/csrfProtection";
 
 dotenv.config();
 const app: Application = express();
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(IFoundCsrfProtectionMiddleware);
 app.use("/api", router);
 app.use(IFoundErrorHandle);
 
