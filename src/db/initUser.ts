@@ -1,8 +1,9 @@
-import { User } from "./schemas/user";
+import { HashPassword } from "../utils/helper";
+import { UserModel } from "./schemas/user";
 
 async function InitAdmin(adminName: string = "admin", password: string = "passport") {
     //Check If target admin Init. 
-    const data = await User.findOne({ "Account": adminName, "Password": password });
+    const data = await UserModel.findOne({ "Account": adminName }).exec();
     if (data !== null) {
         if (data.Permission === 1) {
             console.debug(`User ${adminName} Already Exit, and it is admin.`)
@@ -12,10 +13,11 @@ async function InitAdmin(adminName: string = "admin", password: string = "passpo
         return false;
     }
 
+    const hashPassword = await HashPassword(password);
     //Init if Not.
-    const adminData = new User({
+    const adminData = new UserModel({
         Account: adminName,
-        Password: password,
+        Password: hashPassword,
         Permission: 1
     })
     try {

@@ -1,10 +1,17 @@
-import express, { Application, Response, Request } from "express";
+import express, { Application } from "express";
 import dotenv from "dotenv"
 import morgan from "morgan"
 import session from "express-session";
-import { SetupSession } from "./auth/session_option";
+import { SetupSession } from "./session_option";
 import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
+import { router } from "./route";
+import passport from "passport"
+import swaggerUi from "swagger-ui-express"
+import swaggerFile from "./swagger/doc/swagger.json"
+import { IFoundErrorHandle } from "./middleware/errorHandle";
+import cookieParser from "cookie-parser";
+import { IFoundCsrfProtectionMiddleware } from "./utils/csrfProtection";
 
 dotenv.config();
 const app: Application = express();
@@ -18,20 +25,33 @@ mongoose.connect(process.env.MONDOURI)
         await InitAdmin(process.env.ADMINNAME, process.env.ADMINPASSWORD);
         console.log('Init successful.')
     })
-    .catch((err) => console.error(`Error: ${err}`))
+    .catch((err) => console.error(`Error: ${err}`));
+
+
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(session(sessionOption))
-
+app.use(session(sessionOption));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieParser());
+app.use(IFoundCsrfProtectionMiddleware);
+app.use("/api", router
+    /*
+            #swagger.responses[403] = {
+        description: 'ForbiddenError: invalid csrf token',
+        schema: { $ref: "#/definitions/ForbiddenError" }
+    }
+    */
+);
+app.use(IFoundErrorHandle);
 
 console.log(`Server is Fire at http://localhost:${port}`);
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Start To listen port ${port}`);
+    if (process.env.NODE_ENV == "development") {
+        app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+    }
 })
 
-//WARN:Debug for now please delete later.
-app.get("/", (_req: Request, res: Response) => {
-    res.send("Hello This is IFoundApi, checkout /api To see the document.");
-})
