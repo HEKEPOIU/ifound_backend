@@ -2,7 +2,7 @@ import express, { Application } from "express";
 import dotenv from "dotenv"
 import morgan from "morgan"
 import session from "express-session";
-import { SetupSession } from "./session_option";
+import { SetupSession } from "./utils/session_option";
 import mongoose from "mongoose";
 import { InitAdmin } from "./db/initUser";
 import { router } from "./route";
@@ -12,6 +12,7 @@ import swaggerFile from "./swagger/doc/swagger.json"
 import { IFoundErrorHandle } from "./middleware/errorHandle";
 import cookieParser from "cookie-parser";
 import { IFoundCsrfProtectionMiddleware } from "./utils/csrfProtection";
+import { SetupCors } from "./utils/cors_setting";
 
 dotenv.config();
 const app: Application = express();
@@ -31,6 +32,7 @@ mongoose.connect(process.env.MONDOURI)
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(SetupCors(app));
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
