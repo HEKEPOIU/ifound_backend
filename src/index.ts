@@ -38,14 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(IFoundCsrfProtectionMiddleware);
-app.use("/api", router
-    /*
-            #swagger.responses[403] = {
-        description: 'ForbiddenError: invalid csrf token',
-        schema: { $ref: "#/definitions/ForbiddenError" }
-    }
-    */
-);
+app.use("/api", router);
 app.use(IFoundErrorHandle);
 
 console.log(`Server is Fire at http://localhost:${port}`);

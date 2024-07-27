@@ -5,7 +5,7 @@
     "title": "IFound_API",
     "description": ""
   },
-  "host": "localhost:8000/api",
+  "host": "localhost:8000",
   "servers": [
     {
       "url": "http://localhost:8000"
@@ -37,6 +37,13 @@
             "schema": {
               "$ref": "#/definitions/UserAuthData"
             }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "description": "CSRF Token",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
@@ -97,6 +104,13 @@
             "schema": {
               "$ref": "#/definitions/UserAuthData"
             }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "description": "CSRF Token",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
@@ -136,6 +150,15 @@
           "Auth"
         ],
         "description": "Endpoint to log out a user.",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "description": "CSRF Token",
+            "type": "string",
+            "required": true
+          }
+        ],
         "responses": {
           "205": {
             "description": "User logged out successfully."
@@ -181,12 +204,6 @@
               "xml": {
                 "name": "main"
               }
-            }
-          },
-          "403": {
-            "description": "ForbiddenError: invalid csrf token",
-            "schema": {
-              "$ref": "#/definitions/ForbiddenError"
             }
           }
         }

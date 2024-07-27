@@ -9,8 +9,7 @@ import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
 import { IFoundError } from "@codesRoot/middleware/errorType";
 import { csrfProtection } from "@codesRoot/utils/csrfProtection";
 
-const authRouter = Router()
-
+const authRouter = Router();
 
 authRouter.post("/register", registerUserCheck, async (req: Request, res: Response, next: NextFunction) => {
 
@@ -43,6 +42,18 @@ authRouter.post("/register", registerUserCheck, async (req: Request, res: Respon
         #swagger.responses[500] = {
             description: 'Unknown server error.',
             schema: {  $ref: "#/definitions/UnknownError"  }
+        }
+
+        #swagger.responses[403] = {
+            description: 'ForbiddenError: invalid csrf token',
+            schema: { $ref: "#/definitions/ForbiddenError" }
+        }
+        
+        #swagger.parameters['X-CSRF-Token'] = {
+            in: 'header',
+            description: 'CSRF Token',
+            type: 'string',
+            required: true,
         }
     */
     const result: Result = validationResult(req);
@@ -89,6 +100,18 @@ authRouter.post(
                 description: 'Unauthorized, login failed.',
                 schema: { message: 'Unauthorized' }
             }
+
+            #swagger.responses[403] = {
+                description: 'ForbiddenError: invalid csrf token',
+                schema: { $ref: "#/definitions/ForbiddenError" }
+            }
+            
+            #swagger.parameters['X-CSRF-Token'] = {
+                in: 'header',
+                description: 'CSRF Token',
+                type: 'string',
+                required: true,
+            }
         */
         const user = req.user as UserDocument;
         res.status(200).json({ Permission: user.Permission });
@@ -115,6 +138,18 @@ authRouter.delete("/logout", RequestLogin,
                 description: 'Unauthorized, Not Login.',
                 schema: { $ref: "#/definitions/NotLoginError"  }
             }
+
+            #swagger.responses[403] = {
+                description: 'ForbiddenError: invalid csrf token',
+                schema: { $ref: "#/definitions/ForbiddenError" }
+            }
+            
+            #swagger.parameters['X-CSRF-Token'] = {
+                in: 'header',
+                description: 'CSRF Token',
+                type: 'string',
+                required: true,
+            }
         */
         res.clearCookie('connect.sid');  // clear the cookie
         req.logout((err) => {
@@ -134,7 +169,7 @@ authRouter.get("/getToken",
                 description: 'CSRF token retrieved successfully.',
                 schema: { csrfToken: 'string' }
             }
-
+            
         */
         res.status(200).json({ csrfToken: csrfProtection.generateToken(req, res, false, false) });
     })

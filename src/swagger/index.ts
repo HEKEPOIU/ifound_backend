@@ -6,7 +6,7 @@ const doc = {
         version: '0.0.1',            // by default: '1.0.0'
         title: 'IFound_API',              // by default: 'REST API'
     },
-    host: "localhost:8000/api",
+    host: "localhost:8000",
     servers: [
         {
             url: 'http://localhost:8000',              // by default: 'http://localhost:3000'

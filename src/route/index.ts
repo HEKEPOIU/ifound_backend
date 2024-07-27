@@ -8,7 +8,9 @@ const router = Router();
 passport.use(localStrategy);
 router.use("/auth", authRouter
     /* 	#swagger.tags = ['Auth']
-          #swagger.description = 'Endpoint to Authentication a user' */
+        #swagger.description = 'Endpoint to Authentication a user' 
+    */
 );
+
 
 export { router }
