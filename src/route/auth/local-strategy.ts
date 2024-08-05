@@ -9,18 +9,18 @@ const strateOption: IStrategyOptions = {
     usernameField: "Account",
     passwordField: 'Password'
 }
-passport.serializeUser((user, down) => {
+passport.serializeUser((user, done) => {
     const mongooseUser: UserDocument = user as UserDocument;
-    down(null, mongooseUser.id);
+    done(null, mongooseUser.id);
 })
 
-passport.deserializeUser(async (id, down) => {
+passport.deserializeUser(async (id, done) => {
     try {
         const findUser = await UserModel.findById(id).exec();
         if (!findUser) throw new Error("User Not Found");
-        down(null, findUser);
+        done(null, findUser);
     } catch (err) {
-        down(err, false);
+        done(err, false);
 
     }
 })
