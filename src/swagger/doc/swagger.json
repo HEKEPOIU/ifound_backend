@@ -184,6 +184,43 @@
         }
       }
     },
+    "/api/auth/getPermission": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Get User Permission.",
+        "parameters": [
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "description": "CSRF Token",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Permission successful.",
+            "schema": {
+              "$ref": "#/definitions/LoginSuccess"
+            }
+          },
+          "401": {
+            "description": "Unauthorized, Not Login.",
+            "schema": {
+              "$ref": "#/definitions/NotLoginError"
+            }
+          },
+          "403": {
+            "description": "ForbiddenError: invalid csrf token",
+            "schema": {
+              "$ref": "#/definitions/ForbiddenError"
+            }
+          }
+        }
+      }
+    },
     "/api/auth/getToken": {
       "get": {
         "tags": [
@@ -312,17 +349,12 @@
     "LoginSuccess": {
       "type": "object",
       "properties": {
-        "csrfToken": {
-          "type": "string",
-          "example": "string"
-        },
         "Permision": {
           "type": "number",
           "example": 0
         }
       },
       "required": [
-        "csrfToken",
         "Permision"
       ]
     },

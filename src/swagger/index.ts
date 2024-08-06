@@ -49,7 +49,6 @@ const doc = {
             ]
         },
         LoginSuccess: {
-            $csrfToken: "string",
             $Permision: 0
         },
         ForbiddenError: {

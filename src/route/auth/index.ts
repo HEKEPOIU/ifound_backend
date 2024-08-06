@@ -160,6 +160,39 @@ authRouter.delete("/logout", RequestLogin,
         });
     })
 
+authRouter.get("/getPermission",
+    RequestLogin,
+    (req: Request, res: Response) => {
+        const user = req.user as UserDocument;
+        /*
+            #swagger.description = 'Get User Permission.'
+
+            #swagger.responses[200] = {
+                description: 'Get Permission successful.',
+                schema: { $ref: "#/definitions/LoginSuccess" }
+            }
+
+            #swagger.responses[401] = {
+                description: 'Unauthorized, Not Login.',
+                schema: { $ref: "#/definitions/NotLoginError"  }
+            }
+
+            #swagger.responses[403] = {
+                description: 'ForbiddenError: invalid csrf token',
+                schema: { $ref: "#/definitions/ForbiddenError" }
+            }
+            
+            #swagger.parameters['X-CSRF-Token'] = {
+                in: 'header',
+                description: 'CSRF Token',
+                type: 'string',
+                required: true,
+            }
+        */
+        res.status(200).json({ Permission: user.Permission });
+
+    })
+
 authRouter.get("/getToken",
     (req: Request, res: Response) => {
         /*  
