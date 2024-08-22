@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { UserDocument, UserModel } from "./userType";
+import { UserDocument,  UserModelType } from "./userType";
 
 
 interface IUser {
@@ -8,10 +8,11 @@ interface IUser {
     UploadCount: number;
     ArtivleIDList: [Types.ObjectId]
     Permission: number;
-    CreateDate: Date;
+    CreatedAt: Date;
+    UpdatedAt: Date;
 }
 // Permission is [0,1] 1 for admin, 0 for normal user.
-const userSchema = new Schema<UserDocument, UserModel>({
+const userSchema = new Schema<UserDocument, UserModelType>({
     Account: {
         type: String,
         required: true,
@@ -35,9 +36,13 @@ const userSchema = new Schema<UserDocument, UserModel>({
     },
 
 }, {
-    timestamps: true,
-});
+    timestamps: {
+        createdAt: "CreatedAt",
+        updatedAt: "UpdatedAt"
+    }
+}
+);
 
 
-const UserModel = mongoose.model<UserDocument, UserModel>('User', userSchema);
+const UserModel = mongoose.model<UserDocument, UserModelType>('User', userSchema);
 export { UserModel, IUser }; 
