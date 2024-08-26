@@ -1,6 +1,6 @@
 #Build stage
 #This is because of typescrpit need build with dev dependence
-#So WE sperate the Dockerfile to Multi-Stage.
+#So WE separate the Dockerfile to Multi-Stage.
 #And it Can use in dev
 #Reference
 #https://chinwendu.medium.com/how-to-dockerize-your-typescript-application-with-multi-stage-build-a-step-by-step-guide-56e7c4274088

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { registerUserCheck } from "@codesRoot/db/schemas/userValidator";
-import { matchedData, Result, validationResult } from "express-validator";
+import { registerUserCheck, returnIfNotPass } from "@codesRoot/db/schemas/validator";
+import { matchedData } from "express-validator";
 import { UserModel } from "@codesRoot/db/schemas/user";
 import { HashPassword } from "@codesRoot/utils/helper";
 import passport from "passport";
@@ -11,7 +11,7 @@ import { csrfProtection } from "@codesRoot/utils/csrfProtection";
 
 const authRouter = Router();
 
-authRouter.post("/register", registerUserCheck, async (req: Request, res: Response, next: NextFunction) => {
+authRouter.post("/register", registerUserCheck, returnIfNotPass, async (req: Request, res: Response, next: NextFunction) => {
 
 
     /*  
@@ -56,10 +56,6 @@ authRouter.post("/register", registerUserCheck, async (req: Request, res: Respon
             required: true,
         }
     */
-    const result: Result = validationResult(req);
-    if (!result.isEmpty()) {
-        return next(new IFoundError('Validation errors', 400, result.array()));
-    }
 
     const data = matchedData(req);
     data.Password = await HashPassword(data.Password);

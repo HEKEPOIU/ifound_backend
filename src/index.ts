@@ -24,6 +24,7 @@ mongoose.connect(process.env.MONDOURI)
         console.log('Connected to Database')
         console.log('Try to Init Admin');
         await InitAdmin(process.env.ADMINNAME, process.env.ADMINPASSWORD);
+        //NOTE: Not Sure is need on production.
         console.log('Init successful.')
     })
     .catch((err) => console.error(`Error: ${err}`));

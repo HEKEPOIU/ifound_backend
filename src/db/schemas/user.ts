@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { UserDocument,  UserModelType } from "./userType";
+import { UserDocument, UserModelType } from "./userType";
 
 
 interface IUser {
@@ -29,6 +29,7 @@ const userSchema = new Schema<UserDocument, UserModelType>({
     ArtivleIDList: {
         type: [Schema.Types.ObjectId],
         default: [],
+        ref: 'Article'
     },
     Permission: {
         type: Number,
