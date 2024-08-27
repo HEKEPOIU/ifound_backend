@@ -6,7 +6,7 @@ interface IUser {
     Account: string;
     Password: string;
     UploadCount: number;
-    ArtivleIDList: [Types.ObjectId]
+    ArticleIDList: [Types.ObjectId]
     Permission: number;
     CreatedAt: Date;
     UpdatedAt: Date;
@@ -26,7 +26,7 @@ const userSchema = new Schema<UserDocument, UserModelType>({
         type: Number,
         default: 0,
     },
-    ArtivleIDList: {
+    ArticleIDList: {
         type: [Schema.Types.ObjectId],
         default: [],
         ref: 'Article'

@@ -120,7 +120,7 @@ authRouter.delete("/logout", RequestLogin,
         /*  
             #swagger.description = 'Endpoint to log out a user.'
     
-            #swagger.responses[205] = {
+            #swagger.responses[200] = {
                 description: 'User logged out successfully.'
             }
     
@@ -151,7 +151,7 @@ authRouter.delete("/logout", RequestLogin,
         req.logout((err) => {
             if (err) return next(err);
             req.session.destroy(() => {
-                res.sendStatus(205);
+                res.sendStatus(200);
             })
         });
     })

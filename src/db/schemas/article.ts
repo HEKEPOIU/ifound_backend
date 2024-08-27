@@ -22,9 +22,11 @@ const articleSchema = new Schema<ArticleDocument, ArticleModelType>({
     Tags: { type: [String], default: [] },
     Name: { type: String, required: true },
     DetailInfo: new Schema<IDetilInfo>({
-        Description: { type: String },
-        FoundLocation: { type: String },
+        Description: { type: String, default: "" },
+        FoundLocation: { type: String, default: "" },
         CurrentLocation: { type: String, required: true }
+    }, {
+        _id: false
     }),
     OwnerID: { type: Schema.Types.ObjectId, required: true, ref: "User" },
 }, {
