@@ -1,0 +1,22 @@
+meta {
+  name: Login
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8000/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: 050655dff771ad22c55b644ae1518a3f1d4b983e9d5fb1ac1506d3fc53449523fe2282b1d606b1319e73293ab52ec6a3eba1c24202671388eed5a92593e43909
+}
+
+body:json {
+  {
+    "Account": "poiuytre@gmail.com",
+    "Password": "Decnovpk9201"
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: LoginAdmin
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8000/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: 097a4526b7129af6529c102f66e7c35a4e5245149cf6768675a25561a2ac004b6bc8bcb3b8d9a12dc19e00160d062c4e9b60cf5cf167d63dc0a1afac4fd211ec
+}
+
+body:json {
+  {
+    "Account": "admin",
+    "Password": "admin"
+  }
+}

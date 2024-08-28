@@ -1,0 +1,15 @@
+meta {
+  name: UploadCount
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8000/api/user/uploadCount
+  body: none
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: 1511b0d3905a8bc825184859ff7515f9b33fc845e1c88946a2f4dd0955cd89eb70cbf69b68a7062320a4ba98f953d0aa4af1c62d4172e3a50eb5004c5b00ad4a
+}

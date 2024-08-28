@@ -259,20 +259,26 @@
         }
       }
     },
-    "/api/article/uploadCount": {
+    "/api/article/{id}": {
       "get": {
         "tags": [
           "Auth"
         ],
         "description": "Endpoint to Authentication a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      }
-    },
-    "/api/article/{id}": {
+      },
       "delete": {
         "tags": [
           "Auth"
@@ -286,6 +292,45 @@
             "type": "string"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/getOwn": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/uploadCount": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
         "responses": {
           "200": {
             "description": "OK"

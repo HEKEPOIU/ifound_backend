@@ -1,0 +1,15 @@
+meta {
+  name: Logout
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:8000/api/auth/logout
+  body: none
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: d48e544e092e223210dc662a9fe67a78dff255b3b4523f1f80a22a1a0374132520fc104dc8a09c3879fc7a78cd0b0931bafedcb8dde0f52f3b84eeb549155674
+}
