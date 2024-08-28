@@ -1,6 +1,7 @@
 import { IFoundError } from "@codesRoot/middleware/errorType";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { checkSchema, Result, validationResult } from "express-validator";
+import { isValidObjectId } from "mongoose";
 
 function ContainsUpperLowerDigit(value: string) {
     return /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value);
@@ -23,7 +24,7 @@ function isFitlenghtRequire(value: string) {
 function lenghtChecker(value: Array<string>) {
     for (const item of value) {
         if (!isFitlenghtRequire(item)) {
-           return false 
+            return false
         }
     }
     return true
@@ -66,7 +67,7 @@ const registerUserCheck = checkSchema({
         },
         trim: true,
     }
-});
+}, ["body"]);
 
 const uploadArticleCheck = checkSchema({
     Tags: {
@@ -104,7 +105,7 @@ const uploadArticleCheck = checkSchema({
             errorMessage: "FoundLocation Must a String"
         },
         optional: true
-    
+
     },
     CurrentLocation: {
         isString: {
@@ -115,6 +116,41 @@ const uploadArticleCheck = checkSchema({
         }
     }
 
-})
+}, ["body"])
 
-export { registerUserCheck, returnIfNotPass, uploadArticleCheck };
+const articleIdCheck = checkSchema(
+    {
+        id: {
+            custom: {
+                options: isValidObjectId,
+                errorMessage: "id not a valid ObjectID"
+            },
+        }
+    }, ["params"])
+
+const articleQueryCheck = checkSchema({
+    From: {
+        isInt: {
+            errorMessage: "From must a Int",
+            options: {
+                min: 0
+            }
+        },
+        toInt: true,
+    },
+    Length: {
+        isInt: {
+            errorMessage: "Length must a Int"
+        },
+        toInt: true,
+    }
+
+}, ["query"])
+
+export {
+    registerUserCheck,
+    returnIfNotPass,
+    uploadArticleCheck,
+    articleIdCheck,
+    articleQueryCheck
+};

@@ -6,7 +6,6 @@ import { HashPassword } from "@codesRoot/utils/helper";
 import passport from "passport";
 import { UserDocument } from "@codesRoot/db/schemas/userType";
 import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
-import { IFoundError } from "@codesRoot/middleware/errorType";
 import { csrfProtection } from "@codesRoot/utils/csrfProtection";
 
 const authRouter = Router();
@@ -65,12 +64,6 @@ authRouter.post("/register", registerUserCheck, returnIfNotPass, async (req: Req
         await newUser.save();
         return res.status(201).json({ message: "User created" })
     } catch (err) {
-        if (err instanceof Error) {
-            if (err.name == "MongoServerError") {
-                return next(new IFoundError(err.name, 409, [err.message]));
-            }
-        }
-
         return next(err);
     }
 })

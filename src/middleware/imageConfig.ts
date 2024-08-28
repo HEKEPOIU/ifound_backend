@@ -38,7 +38,7 @@ function processImagetojpg(field: string): RequestHandler {
         }
         const user = req.user as UserDocument;
         const fileName = user.id + "_" + Date.now() + '.jpg';
-        const dirPath = path.join(process.cwd(), '/imgs/');
+        const dirPath = path.join(process.cwd(),process.env.IMAGEPATH );
         const outputPath = path.join(dirPath, fileName);
         if (!fs.existsSync(dirPath)) {
             fs.mkdirSync(dirPath, { recursive: true });

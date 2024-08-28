@@ -3,6 +3,7 @@ import { authRouter } from "./auth";
 import passport from "passport";
 import { localStrategy } from "./auth/local-strategy";
 import { articleRouter } from "./article";
+import { userRouter } from "./user";
 
 const router = Router();
 
@@ -13,6 +14,7 @@ router.use("/auth", authRouter
     */
 );
 router.use("/article", articleRouter)
+router.use("/user", userRouter)
 
 
 export { router }

@@ -1,5 +1,6 @@
 import mongoose, { Schema, Types, CallbackWithoutResultAndOptionalError } from "mongoose";
 import { ArticleDocument, ArticleModelType } from "./articleType";
+import { UserDocument } from "./userType";
 
 interface IArticle {
     Image: string;
@@ -35,6 +36,10 @@ const articleSchema = new Schema<ArticleDocument, ArticleModelType>({
         updatedAt: "UpdatedAt"
     }
 })
+articleSchema.methods.getOwner = async function (): Promise<UserDocument> {
+    const populateArticle = await this.populate("OwnerID")
+    return populateArticle.OwnerID as UserDocument
+}
 
 articleSchema.pre('save', function (next: CallbackWithoutResultAndOptionalError) {
     if (this.DetailInfo.FoundLocation === "") {

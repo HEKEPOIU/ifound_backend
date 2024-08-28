@@ -1,5 +1,6 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { UserDocument, UserModelType } from "./userType";
+import { ArticleDocument } from "./articleType";
 
 
 interface IUser {
@@ -43,6 +44,10 @@ const userSchema = new Schema<UserDocument, UserModelType>({
     }
 }
 );
+userSchema.methods.getArticleList = async function (): Promise<Array<ArticleDocument>> {
+    const populateUser = await this.populate("ArticleIDList") 
+    return populateUser.ArticleIDList as Array<ArticleDocument>
+}
 
 
 const UserModel = mongoose.model<UserDocument, UserModelType>('User', userSchema);
