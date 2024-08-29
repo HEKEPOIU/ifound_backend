@@ -18,6 +18,7 @@ articleRouter.post('/upload',
     multerconfig.single("Image"),
     uploadArticleCheck,
     returnIfNotPass,
+    limiter,
     processImagetojpg('Image'),
     async (req: Request, res: Response, next: NextFunction) => {
         const data = matchedData(req);
