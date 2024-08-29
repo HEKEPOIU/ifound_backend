@@ -6,6 +6,7 @@ import { IFoundError } from "@codesRoot/middleware/errorType";
 import { multerconfig, processImagetojpg } from "@codesRoot/middleware/imageConfig";
 import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
 import { GetLatestArticleList } from "@codesRoot/utils/helper";
+import { limiter } from "@codesRoot/utils/rateLimitconfig";
 import { NextFunction, Request, Response, Router } from "express";
 import { matchedData } from "express-validator";
 
@@ -45,6 +46,7 @@ articleRouter.post('/upload',
 articleRouter.get("/:id",
     articleIdCheck,
     returnIfNotPass,
+    limiter,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = matchedData(req);
@@ -69,6 +71,7 @@ articleRouter.get("/:id",
     })
 articleRouter.get("/",
     articleQueryCheck,
+    limiter,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = matchedData(req);
@@ -85,6 +88,7 @@ articleRouter.delete("/:id",
     RequestLogin,
     articleIdCheck,
     returnIfNotPass,
+    limiter,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
 
