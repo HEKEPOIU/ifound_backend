@@ -2,7 +2,7 @@ services:
 
   #This for the local dev usecase, When it deploy,
   #We connect to mongodb atlas.
-  mongo-dev:
+  mongo:
     image: mongo
     restart: unless-stopped
     env_file:
@@ -14,3 +14,6 @@ services:
         - MONGO_VOLUMES:/data/db
     ports:
       - "27017:27017"
+
+volumes:
+  MONGO_VOLUMES:
