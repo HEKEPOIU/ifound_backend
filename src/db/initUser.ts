@@ -2,7 +2,7 @@ import { HashPassword } from "../utils/helper";
 import { UserModel } from "./schemas/user";
 
 async function InitAdmin(adminName: string = "admin", password: string = "passport") {
-    //Check If target admin Init. 
+    //Check If target admin initial. 
     const data = await UserModel.findOne({ "Account": adminName }).exec();
     if (data !== null) {
         if (data.Permission === 1) {
@@ -14,7 +14,7 @@ async function InitAdmin(adminName: string = "admin", password: string = "passpo
     }
 
     const hashPassword = await HashPassword(password);
-    //Init if Not.
+    //Initial if Not.
     const adminData = new UserModel({
         Account: adminName,
         Password: hashPassword,

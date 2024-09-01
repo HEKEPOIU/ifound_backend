@@ -4,7 +4,7 @@ import cors from "cors"
 function SetupCors(app: Application) {
 
     const corsSetting = cors({
-        origin: "http://localhost:5173", // need to spcific the origin if need send cookies.
+        origin: "http://localhost:5173", // need to specific the origin if need send cookies.
         credentials: true, // This is allow get cookies
     });
 

@@ -6,6 +6,12 @@ const IFoundErrorHandle: ErrorRequestHandler =
         if (err instanceof IFoundError) {
             return res.status(err.statusCode).json({ message: err.message, errors: err.errors })
         }
+
+        if (err instanceof Error) {
+            if (err.name == "MongoServerError") {
+                return res.status(409).json({ message: err.name, errors: [err.message] })
+            }
+        }
         // console.log(err);
         if (err.name === "ForbiddenError") {
             return res.status(403).json({ message: err.name, errors: [err.message] });

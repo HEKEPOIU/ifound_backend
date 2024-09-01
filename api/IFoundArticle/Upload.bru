@@ -1,0 +1,23 @@
+meta {
+  name: Upload
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8000/api/article/upload
+  body: multipartForm
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: e7fe29bc977981f2ff98494669baffe0ed378820837b148c7e178b68631611967f29c2f3b72ff241f81b68c9aeed73c7d556f8157614ab4ded6140087266fee4
+}
+
+body:multipart-form {
+  Name: 教室
+  CurrentLocation: 406
+  Tags[]: 123     
+  Tags[]: 456
+  Image: @file(/home/hekepoiu/Downloads/aycp7-31qij.heic)
+}

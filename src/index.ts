@@ -13,6 +13,7 @@ import { IFoundErrorHandle } from "./middleware/errorHandle";
 import cookieParser from "cookie-parser";
 import { IFoundCsrfProtectionMiddleware } from "./utils/csrfProtection";
 import { SetupCors } from "./utils/cors_setting";
+import path from "path";
 
 dotenv.config();
 const app: Application = express();
@@ -38,6 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(cookieParser());
 app.use(IFoundCsrfProtectionMiddleware);
+app.use(process.env.IMAGEPATH, express.static(path.join(process.cwd(), process.env.IMAGEPATH)));
 app.use("/api", router);
 app.use(IFoundErrorHandle);
 
@@ -46,7 +48,7 @@ console.log(`Server is Fire at http://localhost:${port}`);
 app.listen(port, async () => {
     console.log(`Start To listen port ${port}`);
     if (process.env.NODE_ENV == "development") {
-        app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+        app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 })
 

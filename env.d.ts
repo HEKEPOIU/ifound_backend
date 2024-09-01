@@ -8,6 +8,7 @@ declare global {
             MONDOURI: string;
             ADMINNAME: string;
             ADMINPASSWORD: string;
+            IMAGEPATH: string;
             //You Can add more .env setting in it.
         }
     }

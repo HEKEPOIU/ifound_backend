@@ -160,7 +160,7 @@
           }
         ],
         "responses": {
-          "205": {
+          "200": {
             "description": "User logged out successfully."
           },
           "401": {
@@ -242,6 +242,98 @@
                 "name": "main"
               }
             }
+          }
+        }
+      }
+    },
+    "/api/article/upload": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/{id}": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/getOwn": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/uploadCount": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

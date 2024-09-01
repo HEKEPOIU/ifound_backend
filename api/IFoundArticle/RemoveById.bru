@@ -1,0 +1,15 @@
+meta {
+  name: RemoveById
+  type: http
+  seq: 2
+}
+
+delete {
+  url: http://localhost:8000/api/article/66ce6dc24cc8adfdcf2e085a
+  body: none
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: 6b75aeb7ed15cf5c691bf54cb01ea58f4ab1e649ddb55defca819c697fdb81de1dcf03e4c7f109a71853676cf245b96dd7b132bbb978cbbca1c7af21f984c755
+}

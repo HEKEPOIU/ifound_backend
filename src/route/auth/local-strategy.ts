@@ -27,7 +27,7 @@ passport.deserializeUser(async (id, done) => {
 
 const localStrategy = new Strategy(strateOption, async (username, passport, done) => {
     try {
-        const findUser = await UserModel.findOne({ Account: username }).exec();
+        const findUser = await UserModel.findOne({ Account: username });
         if (!findUser) return done(null, false);
         const isPasswordCorrect = await ComparePassword(findUser.Password, passport);
         if (!isPasswordCorrect) return done(null, false);

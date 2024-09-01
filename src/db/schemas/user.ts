@@ -1,17 +1,19 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { UserDocument, UserModel } from "./userType";
+import { UserDocument, UserModelType } from "./userType";
+import { ArticleDocument } from "./articleType";
 
 
 interface IUser {
     Account: string;
     Password: string;
     UploadCount: number;
-    ArtivleIDList: [Types.ObjectId]
+    ArticleIDList: [Types.ObjectId]
     Permission: number;
-    CreateDate: Date;
+    CreatedAt: Date;
+    UpdatedAt: Date;
 }
 // Permission is [0,1] 1 for admin, 0 for normal user.
-const userSchema = new Schema<UserDocument, UserModel>({
+const userSchema = new Schema<UserDocument, UserModelType>({
     Account: {
         type: String,
         required: true,
@@ -25,9 +27,10 @@ const userSchema = new Schema<UserDocument, UserModel>({
         type: Number,
         default: 0,
     },
-    ArtivleIDList: {
+    ArticleIDList: {
         type: [Schema.Types.ObjectId],
         default: [],
+        ref: 'Article'
     },
     Permission: {
         type: Number,
@@ -35,9 +38,17 @@ const userSchema = new Schema<UserDocument, UserModel>({
     },
 
 }, {
-    timestamps: true,
-});
+    timestamps: {
+        createdAt: "CreatedAt",
+        updatedAt: "UpdatedAt"
+    }
+}
+);
+userSchema.methods.getArticleList = async function (): Promise<Array<ArticleDocument>> {
+    const populateUser = await this.populate("ArticleIDList") 
+    return populateUser.ArticleIDList as Array<ArticleDocument>
+}
 
 
-const UserModel = mongoose.model<UserDocument, UserModel>('User', userSchema);
+const UserModel = mongoose.model<UserDocument, UserModelType>('User', userSchema);
 export { UserModel, IUser }; 

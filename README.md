@@ -4,8 +4,8 @@
 
 ```sh
  cp .example.env .env
- code .env #Use the Code editor you like to change inner Setting.
- docker-compose up -d #Use detach mode
+ nvim .env #Use the Code editor you like to change inner Setting.
+ docker-compose -f docker-compose.prod.yaml up -d #Use detach mode, it open the mongodb and IFound server
 ```
 
 ---
@@ -28,6 +28,12 @@ But You can use docker for mongodb On Development. (For none search api)
  npm run gendoc_dev # can generate swagger doc by autogen.
 ```
 
-> You need run gendoc every time you change the autogen code.
+> You need run it every time you change the autogen code.
+
 > Currently only support the Development swagger Doc page.
 
+
+### API Test
+
+[On api folder](api/) it have bruno api test file, it will always up-to-date.
+(swagger page are not.)

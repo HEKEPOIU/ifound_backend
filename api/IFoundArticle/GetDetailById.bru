@@ -1,0 +1,15 @@
+meta {
+  name: GetDetailById
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8000/api/article/66ce2c7a81f09adc0ca27379
+  body: none
+  auth: none
+}
+
+headers {
+  ~X-CSRF-Token: f304c4b69cf8638cefa7f9bb7a8a3d0a8925452043a01659f6229b16d213be27421b6ff1a2eb521a34ef123990de1d9ae156ce31f871540f68bf960588707999
+}

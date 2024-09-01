@@ -1,0 +1,22 @@
+meta {
+  name: Register
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8000/api/auth/register
+  body: json
+  auth: none
+}
+
+headers {
+  X-CSRF-Token: acbeff872eed8ff1bd8bd6f9860a4b539724bd4536835f2962308f664287b1b1e4e49f50ca84dd4c6ebb34207d900e878f15d417ebb8ec847b4d564b5173f66a
+}
+
+body:json {
+  {
+    "Account": "poiuytre@gmail.com",
+    "Password": "Decnovpk9201"
+  }
+}
