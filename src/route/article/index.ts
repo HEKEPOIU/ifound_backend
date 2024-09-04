@@ -76,6 +76,9 @@ articleRouter.get("/tagsSearch",
             const tags = await ArticleModel.getUniqueTagsList();
             const searchTags = new Fuse(tags, searchTagFuseOption)
                 .search(data.Keyword)
+                .filter((value, index) => {
+                   return index < 10 
+                })
                 .map((value) => {
                     return value.item
                 })
