@@ -67,6 +67,22 @@ articleRouter.get("/search",
         }
     })
 
+articleRouter.get("/allTags",
+    limiter,
+    async (_req: Request, res: Response, next: NextFunction) => {
+        try {
+            const articleList: Array<ArticleDocument> = await ArticleModel.find();
+            //Get Unique Tags string.
+            const tags = [...new Set(articleList.map((value: ArticleDocument) => {
+                return value.Tags
+            }).flat())]
+            res.status(200).json({ Tags: tags })
+        } catch (err) {
+            next(err)
+        }
+    })
+
+
 articleRouter.get("/:id",
     articleIdCheck,
     returnIfNotPass,

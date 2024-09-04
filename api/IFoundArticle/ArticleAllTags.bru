@@ -1,0 +1,21 @@
+meta {
+  name: ArticleAllTags
+  type: http
+  seq: 6
+}
+
+get {
+  url: http://localhost:8000/api/article/search?Keyword=雨傘&From=0&Length=30
+  body: none
+  auth: none
+}
+
+params:query {
+  Keyword: 雨傘
+  From: 0
+  Length: 30
+}
+
+headers {
+  X-CSRF-Token: 0d8b3bf4bd6d655e9a5506fa3e4ced854929da1559f333c4d619110ebc5d085d762baea739d39fbc8a0010a323b1b66ced5ca90de43c317556f6dc49d1cd69d7
+}
