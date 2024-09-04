@@ -49,4 +49,13 @@ articleSchema.pre('save', function (next: CallbackWithoutResultAndOptionalError)
 })
 
 const ArticleModel = mongoose.model<ArticleDocument, ArticleModelType>('Article', articleSchema);
+
+ArticleModel.getUniqueTagsList = async function (): Promise<Array<string>> {
+    const articleList: Array<ArticleDocument> = await this.find();
+    //Get Unique Tags string.
+    const tags = [...new Set(articleList.map((value: ArticleDocument) => {
+        return value.Tags
+    }).flat())]
+    return tags;
+}
 export { ArticleModel, IArticle, IDetilInfo }; 

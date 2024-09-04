@@ -7,7 +7,7 @@ import { multerconfig, processImagetojpg } from "@codesRoot/middleware/imageConf
 import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
 import { GetLatestArticleList } from "@codesRoot/utils/helper";
 import { limiter } from "@codesRoot/utils/rateLimitconfig";
-import { searchArticleFuseOptions } from "@codesRoot/utils/searchOption";
+import { searchArticleFuseOptions, searchTagFuseOption } from "@codesRoot/utils/searchOption";
 import { NextFunction, Request, Response, Router } from "express";
 import { matchedData } from "express-validator";
 import Fuse, { FuseResult } from "fuse.js";
@@ -67,15 +67,29 @@ articleRouter.get("/search",
         }
     })
 
+articleRouter.get("/tagsSearch",
+    articleSearchStringQueryCheck,
+    limiter,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = matchedData(req);
+            const tags = await ArticleModel.getUniqueTagsList();
+            const searchTags = new Fuse(tags, searchTagFuseOption)
+                .search(data.Keyword)
+                .map((value) => {
+                    return value.item
+                })
+            res.status(200).json({ Tags: searchTags })
+        } catch (err) {
+            next(err)
+        }
+    })
+
 articleRouter.get("/allTags",
     limiter,
     async (_req: Request, res: Response, next: NextFunction) => {
         try {
-            const articleList: Array<ArticleDocument> = await ArticleModel.find();
-            //Get Unique Tags string.
-            const tags = [...new Set(articleList.map((value: ArticleDocument) => {
-                return value.Tags
-            }).flat())]
+            const tags = await ArticleModel.getUniqueTagsList();
             res.status(200).json({ Tags: tags })
         } catch (err) {
             next(err)

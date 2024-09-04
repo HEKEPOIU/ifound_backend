@@ -15,4 +15,11 @@ const searchArticleFuseOptions: IFuseOptions<IArticle> = {
     ]
 }
 
-export { searchArticleFuseOptions }
+const searchTagFuseOption: IFuseOptions<string> = {
+    findAllMatches: true,
+    includeMatches: true,
+    includeScore: true,
+    threshold: 1.0,
+}
+
+export { searchArticleFuseOptions, searchTagFuseOption }
