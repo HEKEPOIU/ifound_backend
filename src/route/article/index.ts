@@ -1,14 +1,16 @@
 import { ArticleModel } from "@codesRoot/db/schemas/article";
 import { ArticleDocument } from "@codesRoot/db/schemas/articleType";
 import { UserDocument } from "@codesRoot/db/schemas/userType";
-import { articleIdCheck, articleQueryCheck, returnIfNotPass, uploadArticleCheck } from "@codesRoot/db/schemas/validator";
+import { articleIdCheck, articleQueryCheck, articleSearchStringQueryCheck, returnIfNotPass, uploadArticleCheck } from "@codesRoot/db/schemas/validator";
 import { IFoundError } from "@codesRoot/middleware/errorType";
 import { multerconfig, processImagetojpg } from "@codesRoot/middleware/imageConfig";
 import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
 import { GetLatestArticleList } from "@codesRoot/utils/helper";
 import { limiter } from "@codesRoot/utils/rateLimitconfig";
+import { searchArticleFuseOptions, searchTagFuseOption } from "@codesRoot/utils/searchOption";
 import { NextFunction, Request, Response, Router } from "express";
 import { matchedData } from "express-validator";
+import Fuse, { FuseResult } from "fuse.js";
 
 const articleRouter = Router()
 
@@ -40,6 +42,60 @@ articleRouter.post('/upload',
             return res.status(200).json({ message: "Article Upload.", id: newArticle.id })
         } catch (err) {
             return next(err);
+        }
+    })
+
+articleRouter.get("/search",
+    articleSearchStringQueryCheck,
+    articleQueryCheck,
+    limiter,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = matchedData(req);
+            data.From = data.From === undefined ? 0 : data.From
+            data.Length = data.Length === undefined ? 30 : data.Length
+            const articleList: Array<ArticleDocument> = await ArticleModel.find();
+            const articleSearchMap = new Fuse(articleList, searchArticleFuseOptions)
+                .search(data.Keyword)
+                .map((value: FuseResult<ArticleDocument>) => {
+                    return value.item
+                })
+            const articleListMap = GetLatestArticleList(articleSearchMap, data.From, data.Length);
+            res.status(200).json({ ArticleList: articleListMap })
+        } catch (err) {
+            next(err)
+        }
+    })
+
+articleRouter.get("/tagsSearch",
+    articleSearchStringQueryCheck,
+    limiter,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = matchedData(req);
+            const tags = await ArticleModel.getUniqueTagsList();
+            const searchTags = new Fuse(tags, searchTagFuseOption)
+                .search(data.Keyword)
+                .filter((value, index) => {
+                   return index < 10 
+                })
+                .map((value) => {
+                    return value.item
+                })
+            res.status(200).json({ Tags: searchTags })
+        } catch (err) {
+            next(err)
+        }
+    })
+
+articleRouter.get("/allTags",
+    limiter,
+    async (_req: Request, res: Response, next: NextFunction) => {
+        try {
+            const tags = await ArticleModel.getUniqueTagsList();
+            res.status(200).json({ Tags: tags })
+        } catch (err) {
+            next(err)
         }
     })
 

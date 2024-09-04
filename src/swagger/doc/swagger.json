@@ -259,6 +259,45 @@
         }
       }
     },
+    "/api/article/search": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/tagsSearch": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/article/allTags": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint to Authentication a user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/article/{id}": {
       "get": {
         "tags": [

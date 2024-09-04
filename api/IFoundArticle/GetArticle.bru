@@ -5,9 +5,14 @@ meta {
 }
 
 get {
-  url: http://localhost:8000/api/article/
+  url: http://localhost:8000/api/article/?From=0&Length=30
   body: none
   auth: none
+}
+
+params:query {
+  From: 0
+  Length: 30
 }
 
 headers {

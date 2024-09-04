@@ -4,6 +4,7 @@ import { IArticle } from "./article"
 import { UserDocument } from "./userType"
 interface ArticleModelType extends Model<ArticleDocument> {
     // Can add User Model specific function on it.
+    getUniqueTagsList(): Promise<Array<string>>
 }
 
 interface ArticleDocument extends IArticle, Document {
