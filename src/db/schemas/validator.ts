@@ -147,10 +147,23 @@ const articleQueryCheck = checkSchema({
 
 }, ["query"])
 
+
+const articleSearchStringQueryCheck = checkSchema({
+    Keyword: {
+        isString: {
+            errorMessage: "Keyword must String"
+        },
+        notEmpty: {
+            errorMessage: "Keyword in query must fill"
+        }
+    }
+}, ["query"])
+
 export {
     registerUserCheck,
     returnIfNotPass,
     uploadArticleCheck,
     articleIdCheck,
-    articleQueryCheck
+    articleQueryCheck,
+    articleSearchStringQueryCheck,
 };

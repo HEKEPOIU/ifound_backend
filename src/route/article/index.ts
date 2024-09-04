@@ -1,14 +1,16 @@
 import { ArticleModel } from "@codesRoot/db/schemas/article";
 import { ArticleDocument } from "@codesRoot/db/schemas/articleType";
 import { UserDocument } from "@codesRoot/db/schemas/userType";
-import { articleIdCheck, articleQueryCheck, returnIfNotPass, uploadArticleCheck } from "@codesRoot/db/schemas/validator";
+import { articleIdCheck, articleQueryCheck, articleSearchStringQueryCheck, returnIfNotPass, uploadArticleCheck } from "@codesRoot/db/schemas/validator";
 import { IFoundError } from "@codesRoot/middleware/errorType";
 import { multerconfig, processImagetojpg } from "@codesRoot/middleware/imageConfig";
 import { RequestLogin } from "@codesRoot/middleware/LoginRequest";
 import { GetLatestArticleList } from "@codesRoot/utils/helper";
 import { limiter } from "@codesRoot/utils/rateLimitconfig";
+import { searchArticleFuseOptions } from "@codesRoot/utils/searchOption";
 import { NextFunction, Request, Response, Router } from "express";
 import { matchedData } from "express-validator";
+import Fuse, { FuseResult } from "fuse.js";
 
 const articleRouter = Router()
 
@@ -43,6 +45,27 @@ articleRouter.post('/upload',
         }
     })
 
+articleRouter.get("/search",
+    articleSearchStringQueryCheck,
+    articleQueryCheck,
+    limiter,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = matchedData(req);
+            data.From = data.From === undefined ? 0 : data.From
+            data.Length = data.Length === undefined ? 30 : data.Length
+            const articleList: Array<ArticleDocument> = await ArticleModel.find();
+            const articleSearchMap = new Fuse(articleList, searchArticleFuseOptions)
+                .search(data.Keyword)
+                .map((value: FuseResult<ArticleDocument>) => {
+                    return value.item
+                })
+            const articleListMap = GetLatestArticleList(articleSearchMap, data.From, data.Length);
+            res.status(200).json({ ArticleList: articleListMap })
+        } catch (err) {
+            next(err)
+        }
+    })
 
 articleRouter.get("/:id",
     articleIdCheck,
